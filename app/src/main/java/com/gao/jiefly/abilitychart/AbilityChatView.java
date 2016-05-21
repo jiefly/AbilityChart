@@ -128,10 +128,18 @@ public class AbilityChatView extends View {
     private int textSize;
     //覆盖区颜色
     private int coverColor;
+    //覆盖区画笔宽度
+    private int coverWidth;
+    //覆盖区画笔style
+    private Paint.Style coverStyle;
     //覆盖区透明度
     private int coverAlpha;
     //多边形主体颜色
     private int polygonColor;
+    //多边形画笔宽度
+    private int polygonWidth;
+    //多边形画笔style
+    private Paint.Style polygonStyle;
     //多边形初始透明度
     private int polygonAlpha;
     //每项属性的等级数(默认等于count数)
@@ -204,6 +212,23 @@ public class AbilityChatView extends View {
         setDefault();
         init();
     }
+
+    public void setCoverStyle(Paint.Style coverStyle) {
+        this.coverStyle = coverStyle;
+    }
+
+    public void setPolygonWidth(int polygonWidth) {
+        this.polygonWidth = polygonWidth;
+    }
+
+    public void setCoverWidth(int coverWidth) {
+        this.coverWidth = coverWidth;
+    }
+
+    public void setPolygonStyle(Paint.Style polygonStyle) {
+        this.polygonStyle = polygonStyle;
+    }
+
     private void setDefault(){
         textColor = Color.BLACK;
         textSize = 40;
@@ -212,7 +237,13 @@ public class AbilityChatView extends View {
         coverColor = Color.GRAY;
         coverAlpha = 123;
         polygonAlpha = 123;
+        polygonWidth = 3;
         polygonColor = Color.BLUE;
+        polygonStyle = Paint.Style.FILL;
+        proertyLevel = count-3;
+        coverStyle = Paint.Style.FILL;
+        coverWidth = 3;
+
     }
     public void init() {
         angle = (float) (Math.PI * 2 / count);
@@ -223,19 +254,25 @@ public class AbilityChatView extends View {
         valuePaint.setColor(coverColor);
         valuePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         valuePaint.setAlpha(coverAlpha);
+        valuePaint.setStyle(coverStyle);
+        valuePaint.setAntiAlias(true);
+        valuePaint.setStrokeWidth(coverWidth);
 
         textPaint = new TextPaint();
         textPaint.setTextSize(textSize);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setColor(textColor);
+        textPaint.setAntiAlias(true);
 
         mainPaint = new Paint();
         mainPaint.setAntiAlias(true);
         mainPaint.setColor(polygonColor);
         mainPaint.setAlpha(polygonAlpha);
-        mainPaint.setStyle(Paint.Style.FILL);
+        mainPaint.setStyle(polygonStyle);
+        mainPaint.setStrokeWidth(polygonWidth);
 
         linePaint = new Paint();
+        linePaint.setAntiAlias(true);
         linePaint.setAntiAlias(true);
         linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(lineWidth);
@@ -246,14 +283,15 @@ public class AbilityChatView extends View {
         data = new ArrayList<>();
         property = new ArrayList<>();
 
-        proertyLevel = count;
+
         initData();
         initProperty();
     }
 
     private void initProperty() {
+        String[] strings = new String[]{"物理","魔法","防御","金钱","击杀","生存","助攻"};
         for (int i = 0; i < count; i++) {
-            property.add(i, "测试" + i);
+            property.add(i, strings[i]);
         }
     }
 
@@ -277,9 +315,9 @@ public class AbilityChatView extends View {
 
     private void drawPolygon(Canvas canvas) {
         Path path = new Path();
-        float delatR = radius / (proertyLevel - 1);
+        float delatR = radius / (proertyLevel);
 
-        for (int i = proertyLevel - 1; i > 0; i--) {
+        for (int i = proertyLevel; i > 0; i--) {
             float currentR = delatR * i;
             path.reset();
             for (int j = 0; j < count; j++) {
@@ -294,7 +332,10 @@ public class AbilityChatView extends View {
                 }
             }
             path.close();
-            mainPaint.setAlpha(polygonAlpha * i / proertyLevel);
+            if (polygonStyle == Paint.Style.STROKE)
+                mainPaint.setAlpha(255);
+            else
+                mainPaint.setAlpha(polygonAlpha * i / proertyLevel);
             canvas.drawPath(path, mainPaint);
         }
 
