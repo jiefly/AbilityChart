@@ -2,6 +2,7 @@ package com.gao.jiefly.abilitychart;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,109 +22,27 @@ import java.util.List;
  * Fighting_jiiiiie
  */
 public class AbilityChatView extends View {
+    private static final int DEFAULT_COUNT = 6;
+    private static final int DEFAULT_LINE_COLOR = Color.RED;
+    private static final int DEFAULT_LINE_WIDTH = 3;
+    private static final int DEFAULT_TEXT_COLOR = Color.BLACK;
+    private static final int DEFAULT_TEXT_SIZE = 42;
+    private static final int DEFAULT_COVER_COLOR = Color.RED;
+    private static final int DEFAULT_COVER_WIDTH = 2;
+    private static final Paint.Style DEFAULT_COVER_STYLE = Paint.Style.FILL;
+    private static final int DEFAULT_COVER_ALPHA = 123;
+    private static final int DEFAULT_POLYGON_COLOR = Color.BLACK;
+    private static final int DEFAULT_POLGON_WIDTH = 3;
+    private static final Paint.Style DEFAULT_POLGON_STYLE = Paint.Style.FILL;
+    private static final int DEFAULT_POLGON_ALPHA = 123;
+    private static final int DEFAULT_PROERTY_LEVEL = DEFAULT_COUNT - 2;
+    private static final double DEFAULT_MAX_VALUE = 100d;
     //分割线颜色
     private int lineColor;
     //分割线宽
     private int lineWidth;
     //文字颜色
     private int textColor;
-
-    public int getLineColor() {
-        return lineColor;
-    }
-
-    public void setLineColor(int lineColor) {
-        this.lineColor = lineColor;
-    }
-
-    public int getLineWidth() {
-        return lineWidth;
-    }
-
-    public void setLineWidth(int lineWidth) {
-        this.lineWidth = lineWidth;
-    }
-
-    public int getTextColor() {
-        return textColor;
-    }
-
-    public void setTextColor(int textColor) {
-        this.textColor = textColor;
-    }
-
-    public int getTextSize() {
-        return textSize;
-    }
-
-    public void setTextSize(int textSize) {
-        this.textSize = textSize;
-    }
-
-    public int getCoverColor() {
-        return coverColor;
-    }
-
-    public void setCoverColor(int coverColor) {
-        this.coverColor = coverColor;
-    }
-
-    public int getCoverAlpha() {
-        return coverAlpha;
-    }
-
-    public void setCoverAlpha(int coverAlpha) {
-        this.coverAlpha = coverAlpha;
-    }
-
-    public int getPolygonColor() {
-        return polygonColor;
-    }
-
-    public void setPolygonColor(int polygonColor) {
-        this.polygonColor = polygonColor;
-    }
-
-    public int getPolygonAlpha() {
-        return polygonAlpha;
-    }
-
-    public void setPolygonAlpha(int polygonAlpha) {
-        this.polygonAlpha = polygonAlpha;
-    }
-
-    public int getProertyLevel() {
-        return proertyLevel;
-    }
-
-    public void setProertyLevel(int proertyLevel) {
-        this.proertyLevel = proertyLevel;
-    }
-
-    public List<String> getProperty() {
-        return property;
-    }
-
-    public void setProperty(List<String> property) {
-        this.property = property;
-    }
-
-    public List<Double> getData() {
-        return data;
-    }
-
-    public void setData(List<Double> data) {
-        this.data = data;
-    }
-
-    public Double getMaxValue() {
-        return maxValue;
-    }
-
-    public void setMaxValue(Double maxValue) {
-        this.maxValue = maxValue;
-    }
-
     //文字大小
     private int textSize;
     //覆盖区颜色
@@ -151,26 +70,31 @@ public class AbilityChatView extends View {
     //最大数据值
     private Double maxValue;
     //多边形的边数
-    private int count = 7;
+    private int count;
+
+
+    //文字画笔
+    private Paint textPaint;
+    //多边形画笔
+    private Paint mainPaint;
+    //数据画笔
+    private Paint coverPaint;
+    //分割线画笔
+    private Paint linePaint;
+
+
     //每个区域所占的角度（360/count）
     private float angle;
     //最大半径
     private float radius;
     //多边形中心点
     private Point centerPoint;
-    //文字画笔
-    private Paint textPaint;
-    //多边形画笔
-    private Paint mainPaint;
-    //数据画笔
-    private Paint valuePaint;
-    //分割线画笔
-    private Paint linePaint;
+
 
     //让view居中
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        radius = (float) (0.6 * Math.min(w, h) / 2);
+        radius = (float) (0.8 * Math.min(w, h) / 2);
         //中心点坐标
         centerPoint.x = w / 2;
         centerPoint.y = h / 2;
@@ -178,124 +102,239 @@ public class AbilityChatView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public AbilityChatView(Context context, int count) {
-        super(context);
+        this(context,null);
         this.count = count;
-        setDefault();
-        init();
+
 
     }
 
     public AbilityChatView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setDefault();
-        init();
+        this(context,attrs,0);
     }
 
     public AbilityChatView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setDefault();
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AbilityChatView, defStyleAttr, 0);
+        int n = typedArray.getIndexCount();
+        for (int i = 0; i < n; i++) {
+            int attr = typedArray.getIndex(i);
+            switch (attr) {
+                case R.styleable.AbilityChatView_lineColor:
+                    lineColor = typedArray.getColor(attr,DEFAULT_LINE_COLOR);
+                    Log.e("jiefly","---lineColor--"+lineColor+"------");
+                    break;
+                case R.styleable.AbilityChatView_textColor:
+                    textColor = typedArray.getColor(attr, DEFAULT_TEXT_COLOR);
+                    Log.e("jiefly","----textColor-"+textColor+"------");
+                    break;
+                case R.styleable.AbilityChatView_textSize:
+                    textSize = typedArray.getInteger(attr, DEFAULT_TEXT_SIZE);
+                    Log.e("jiefly","--textSize---"+textSize+"------");
+                    break;
+                case R.styleable.AbilityChatView_coverAlpha:
+                    coverAlpha = typedArray.getInteger(attr,DEFAULT_COVER_ALPHA);
+                    break;
+                case R.styleable.AbilityChatView_coverColor:
+                    coverColor = typedArray.getColor(attr,DEFAULT_COVER_COLOR);
+                    break;
+                case R.styleable.AbilityChatView_coverLineWidth:
+                    coverWidth = typedArray.getInteger(attr,DEFAULT_COVER_WIDTH);
+                    break;
+                case R.styleable.AbilityChatView_lineWidth:
+                    lineWidth = typedArray.getInteger(attr,DEFAULT_LINE_WIDTH);
+                    break;
+                case R.styleable.AbilityChatView_polygonAlpha:
+                    polygonAlpha = typedArray.getInteger(attr,DEFAULT_POLGON_ALPHA);
+                    break;
+                case R.styleable.AbilityChatView_polygonColor:
+                    polygonColor = typedArray.getColor(attr,DEFAULT_POLYGON_COLOR);
+                    break;
+                case R.styleable.AbilityChatView_polygonLineWidth:
+                    polygonWidth = typedArray.getInteger(attr,DEFAULT_POLGON_WIDTH);
+                    break;
+            }
+        }
+        typedArray.recycle();
         init();
     }
+
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public AbilityChatView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        Log.e("jiefly","LOLIPOP");
         setDefault();
         init();
     }
 
+    public void setCount(int count) {
+        this.count = count;
+        changeAngle();
+    }
+
     public void setCoverStyle(Paint.Style coverStyle) {
         this.coverStyle = coverStyle;
+        changeCoverPaint();
     }
 
     public void setPolygonWidth(int polygonWidth) {
         this.polygonWidth = polygonWidth;
+        changeMainPaint();
     }
 
     public void setCoverWidth(int coverWidth) {
         this.coverWidth = coverWidth;
+        changeCoverPaint();
     }
 
     public void setPolygonStyle(Paint.Style polygonStyle) {
         this.polygonStyle = polygonStyle;
+        changeMainPaint();
     }
 
-    private void setDefault(){
-        textColor = Color.BLACK;
-        textSize = 40;
-        lineColor = Color.WHITE;
-        lineWidth = 5;
-        coverColor = Color.GRAY;
-        coverAlpha = 123;
-        polygonAlpha = 123;
-        polygonWidth = 3;
-        polygonColor = Color.BLUE;
-        polygonStyle = Paint.Style.FILL;
-        proertyLevel = count-3;
-        coverStyle = Paint.Style.FILL;
-        coverWidth = 3;
-
+    public void setLineColor(int lineColor) {
+        this.lineColor = lineColor;
+        changeLinePaint();
     }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+        changeLinePaint();
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+        changeTextPaint();
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+        changeTextPaint();
+    }
+
+    public void setCoverColor(int coverColor) {
+        this.coverColor = coverColor;
+        changeCoverPaint();
+    }
+
+    public void setCoverAlpha(int coverAlpha) {
+        this.coverAlpha = coverAlpha;
+        changeCoverPaint();
+    }
+
+    public void setPolygonColor(int polygonColor) {
+        this.polygonColor = polygonColor;
+        changeMainPaint();
+    }
+
+    public void setPolygonAlpha(int polygonAlpha) {
+        this.polygonAlpha = polygonAlpha;
+        changeMainPaint();
+    }
+
+    public void setProertyLevel(int proertyLevel) {
+        this.proertyLevel = proertyLevel;
+    }
+
+    public void setProperty(List<String> property) {
+        this.property = property;
+    }
+
+    public void setData(List<Double> data) {
+        this.data = data;
+    }
+
+    public void setMaxValue(Double maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    private void setDefault() {
+        count = DEFAULT_COUNT;
+        textColor = DEFAULT_TEXT_COLOR;
+        textSize = DEFAULT_TEXT_SIZE;
+        lineColor = DEFAULT_LINE_COLOR;
+        lineWidth = DEFAULT_LINE_WIDTH;
+        coverColor = DEFAULT_COVER_COLOR;
+        coverAlpha = DEFAULT_COVER_ALPHA;
+        polygonAlpha = DEFAULT_POLGON_ALPHA;
+        polygonWidth = DEFAULT_POLGON_WIDTH;
+        polygonColor = DEFAULT_POLYGON_COLOR;
+        polygonStyle = DEFAULT_POLGON_STYLE;
+        proertyLevel = DEFAULT_PROERTY_LEVEL;
+        coverStyle = DEFAULT_COVER_STYLE;
+        coverWidth = DEFAULT_COVER_WIDTH;
+        maxValue = DEFAULT_MAX_VALUE;
+    }
+
     public void init() {
-        angle = (float) (Math.PI * 2 / count);
+        changeAngle();
 
         centerPoint = new Point();
-
-        valuePaint = new Paint();
-        valuePaint.setColor(coverColor);
-        valuePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        valuePaint.setAlpha(coverAlpha);
-        valuePaint.setStyle(coverStyle);
-        valuePaint.setAntiAlias(true);
-        valuePaint.setStrokeWidth(coverWidth);
-
-        textPaint = new TextPaint();
-        textPaint.setTextSize(textSize);
-        textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(textColor);
-        textPaint.setAntiAlias(true);
-
         mainPaint = new Paint();
+        textPaint = new TextPaint();
+        linePaint = new Paint();
+        coverPaint = new Paint();
+
+        changeCoverPaint();
+        changeTextPaint();
+        changeMainPaint();
+        changeLinePaint();
+
+        data = new ArrayList<>();
+        property = new ArrayList<>();
+
+        changeData();
+        changeProperty();
+    }
+
+    private void changeAngle() {
+        angle = (float) (Math.PI * 2 / count);
+    }
+
+    private void changeMainPaint() {
+
         mainPaint.setAntiAlias(true);
         mainPaint.setColor(polygonColor);
         mainPaint.setAlpha(polygonAlpha);
         mainPaint.setStyle(polygonStyle);
         mainPaint.setStrokeWidth(polygonWidth);
+    }
 
-        linePaint = new Paint();
+    private void changeTextPaint() {
+        textPaint.setTextSize(textSize);
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(textColor);
+        textPaint.setAntiAlias(true);
+    }
+
+    private void changeLinePaint() {
         linePaint.setAntiAlias(true);
         linePaint.setAntiAlias(true);
         linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(lineWidth);
         linePaint.setStyle(Paint.Style.STROKE);
-
-        maxValue = 70d;
-
-        data = new ArrayList<>();
-        property = new ArrayList<>();
-
-
-        initData();
-        initProperty();
     }
 
-    private void initProperty() {
-        String[] strings = new String[]{"物理","魔法","防御","金钱","击杀","生存","助攻"};
+    private void changeCoverPaint() {
+        coverPaint.setColor(coverColor);
+        coverPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        coverPaint.setAlpha(coverAlpha);
+        coverPaint.setStyle(coverStyle);
+        coverPaint.setAntiAlias(true);
+        coverPaint.setStrokeWidth(coverWidth);
+    }
+
+    private void changeProperty() {
+        String[] strings = new String[]{"物理", "魔法", "防御", "金钱", "击杀", "生存", "助攻"};
         for (int i = 0; i < count; i++) {
             property.add(i, strings[i]);
         }
     }
 
-    private void initData() {
+    private void changeData() {
         for (int i = 0; i < count; i++) {
             data.add(i, (double) (10 * i) + 10);
         }
@@ -310,13 +349,11 @@ public class AbilityChatView extends View {
             path.lineTo(x, y);
             canvas.drawPath(path, linePaint);
         }
-
     }
 
     private void drawPolygon(Canvas canvas) {
         Path path = new Path();
         float delatR = radius / (proertyLevel);
-
         for (int i = proertyLevel; i > 0; i--) {
             float currentR = delatR * i;
             path.reset();
@@ -338,7 +375,6 @@ public class AbilityChatView extends View {
                 mainPaint.setAlpha(polygonAlpha * i / proertyLevel);
             canvas.drawPath(path, mainPaint);
         }
-
     }
 
     private void drawText(Canvas canvas) {
@@ -351,21 +387,21 @@ public class AbilityChatView extends View {
             float y = (float) (radius * Math.cos(currentAngle));
             switch ((int) (2 * currentAngle / Math.PI)) {
                 case 0:
-                    Log.e("jiefly", "第四象限---0" + currentAngle + "anglg" + angle);
+                    //Log.e("jiefly", "第四象限---0" + currentAngle + "anglg" + angle);
                     float dis = textPaint.measureText(property.get(i));
                     canvas.drawText(property.get(i), (float) (x - 0.5 * dis), y + fontHeight, textPaint);
                     break;
                 case 1:
-                    Log.e("jiefly", "第一象限---1");
+                   // Log.e("jiefly", "第一象限---1");
                     canvas.drawText(property.get(i), x + 20, y + 10, textPaint);
                     break;
                 case 2:
-                    Log.e("jiefly", "第二象限---2");
+                   //Log.e("jiefly", "第二象限---2");
                     dis = textPaint.measureText(property.get(i));//文本长度
                     canvas.drawText(property.get(i), x - dis, y, textPaint);
                     break;
                 case 3:
-                    Log.e("jiefly", "第三象限---3");
+                   // Log.e("jiefly", "第三象限---3");
                     dis = textPaint.measureText(property.get(i));//文本长度
                     canvas.drawText(property.get(i), x - dis, y, textPaint);
                     break;
@@ -378,7 +414,7 @@ public class AbilityChatView extends View {
         for (int i = 0; i < count; i++) {
 
             double percent = data.get(i) / maxValue;
-            Log.e("drawRegion", "data:" + percent + "---" + i);
+            //Log.e("drawRegion", "data:" + percent + "---" + i);
             float currentAngle = angle * i;
             float x = (float) (radius * Math.sin(currentAngle) * percent);
             float y = (float) (radius * Math.cos(currentAngle) * percent);
@@ -389,7 +425,7 @@ public class AbilityChatView extends View {
             }
         }
         path.close();
-        canvas.drawPath(path, valuePaint);
+        canvas.drawPath(path, coverPaint);
     }
 
     @Override

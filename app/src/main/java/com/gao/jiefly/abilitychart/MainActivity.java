@@ -1,17 +1,15 @@
 package com.gao.jiefly.abilitychart;
 
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AbilityChatView abilityChatView = (AbilityChatView) findViewById(R.id.idAbChart1);
+        /*AbilityChatView abilityChatView = (AbilityChatView) findViewById(R.id.idAbChart1);
         assert abilityChatView != null;
         abilityChatView.setCount(7);
         abilityChatView.setProertyLevel(3);
@@ -40,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         abilityChatView3.setLineColor(Color.BLACK);
         abilityChatView3.setLineWidth(2);
         abilityChatView3.setCoverAlpha(199);
-        abilityChatView3.init();
-
+        abilityChatView3.init();*/
 
     }
 }
