@@ -39,6 +39,5 @@ public class MainActivity extends Activity {
         abilityChatView3.setLineWidth(2);
         abilityChatView3.setCoverAlpha(199);
         abilityChatView3.init();*/
-
     }
 }

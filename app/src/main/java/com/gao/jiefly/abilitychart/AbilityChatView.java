@@ -12,6 +12,7 @@ import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -115,6 +116,7 @@ public class AbilityChatView extends View {
 
     public AbilityChatView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+//
         setDefault();
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AbilityChatView, defStyleAttr, 0);
         int n = typedArray.getIndexCount();
@@ -126,11 +128,12 @@ public class AbilityChatView extends View {
                     Log.e("jiefly","---lineColor--"+lineColor+"------");
                     break;
                 case R.styleable.AbilityChatView_textColor:
+
                     textColor = typedArray.getColor(attr, DEFAULT_TEXT_COLOR);
                     Log.e("jiefly","----textColor-"+textColor+"------");
                     break;
                 case R.styleable.AbilityChatView_textSize:
-                    textSize = typedArray.getInteger(attr, DEFAULT_TEXT_SIZE);
+                    textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_TEXT_SIZE),context.getResources().getDisplayMetrics());
                     Log.e("jiefly","--textSize---"+textSize+"------");
                     break;
                 case R.styleable.AbilityChatView_coverAlpha:
@@ -140,10 +143,10 @@ public class AbilityChatView extends View {
                     coverColor = typedArray.getColor(attr,DEFAULT_COVER_COLOR);
                     break;
                 case R.styleable.AbilityChatView_coverLineWidth:
-                    coverWidth = typedArray.getInteger(attr,DEFAULT_COVER_WIDTH);
+                    coverWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_COVER_WIDTH),context.getResources().getDisplayMetrics());
                     break;
                 case R.styleable.AbilityChatView_lineWidth:
-                    lineWidth = typedArray.getInteger(attr,DEFAULT_LINE_WIDTH);
+                    lineWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_LINE_WIDTH),context.getResources().getDisplayMetrics());
                     break;
                 case R.styleable.AbilityChatView_polygonAlpha:
                     polygonAlpha = typedArray.getInteger(attr,DEFAULT_POLGON_ALPHA);
@@ -152,7 +155,7 @@ public class AbilityChatView extends View {
                     polygonColor = typedArray.getColor(attr,DEFAULT_POLYGON_COLOR);
                     break;
                 case R.styleable.AbilityChatView_polygonLineWidth:
-                    polygonWidth = typedArray.getInteger(attr,DEFAULT_POLGON_WIDTH);
+                    polygonWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_POLGON_WIDTH),context.getResources().getDisplayMetrics());
                     break;
             }
         }

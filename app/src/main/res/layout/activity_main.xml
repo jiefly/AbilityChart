@@ -18,19 +18,17 @@
 		    android:layout_height="match_parent"
 		    custom:textColor="#000"
 		    custom:lineColor="#75082d"
-		    custom:textSize="30"
+		    custom:textSize="5sp"
 		    custom:coverColor="#0ff"
 		    custom:coverAlpha="100"
-		    custom:polygonAlpha="23"
-
-	    />
+		    custom:polygonAlpha="23"/>
 	    <com.gao.jiefly.abilitychart.AbilityChatView
 		    android:layout_width="0dp"
 		    android:layout_weight="1"
 		    android:layout_height="match_parent"
 		    custom:textColor="#000"
 		    custom:lineColor="#75082d"
-		    custom:textSize="30"
+		    custom:textSize="5sp"
 		    custom:coverColor="#0ff"
 		    custom:coverAlpha="100"
 		    custom:polygonAlpha="123"
@@ -47,10 +45,11 @@
 		    android:layout_height="match_parent"
 		    custom:textColor="#000"
 		    custom:lineColor="#75082d"
-		    custom:textSize="40"
+		    custom:textSize="3sp"
 		    custom:coverColor="#ff0000"
 		    custom:coverAlpha="100"
 		    custom:polygonAlpha="23"
+		    custom:lineWidth="0.2dp"
 	    />
      <!--   <com.gao.jiefly.abilitychart.AbilityChatView
 	        android:layout_width="0dp"

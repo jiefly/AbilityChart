@@ -2,14 +2,14 @@
 <resources>
     <attr name="textColor" format="color"/>
     <attr name="lineColor" format="color"/>
-    <attr name="textSize" format="integer"/>
-    <attr name="lineWidth" format="integer"/>
+    <attr name="textSize" format="dimension"/>
+    <attr name="lineWidth" format="dimension"/>
     <attr name="coverColor" format="color"/>
     <attr name="coverAlpha" format="integer"/>
-    <attr name="coverLineWidth" format="integer"/>
+    <attr name="coverLineWidth" format="dimension"/>
     <attr name="polygonColor" format="color"/>
     <attr name="polygonAlpha" format="integer"/>
-    <attr name="polygonLineWidth" format="integer"/>
+    <attr name="polygonLineWidth" format="dimension"/>
     <declare-styleable name="AbilityChatView">
         <attr name="textColor"/>
         <attr name="textSize"/>
