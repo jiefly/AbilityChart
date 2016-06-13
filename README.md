@@ -1,7 +1,7 @@
 # AbilityChart
 一个能力值属性分布的控件
-
 可以改变属性个数，内部层数，以及view的各种属性（text大小，各项属性值，属性个数，分割线颜色，线宽····）
+#效果图：
 ![image](https://raw.githubusercontent.com/jiefly/AbilityChart/master/app/Screenshot_20160522-150549.png)
 ![image](https://raw.githubusercontent.com/jiefly/AbilityChart/master/app/Screenshot_20160521-203747.png)
 #设置各个属性值的大小
