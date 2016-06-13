@@ -1,7 +1,50 @@
 # AbilityChart
 一个能力值属性分布的控件
 
-可以改变属性个数，以及内部层数
+可以改变属性个数，内部层数，以及view的各种属性（text大小，各项属性值，属性个数，分割线颜色，线宽····）
 ![image](https://raw.githubusercontent.com/jiefly/AbilityChart/master/app/Screenshot_20160522-150549.png)
 ![image](https://raw.githubusercontent.com/jiefly/AbilityChart/master/app/Screenshot_20160521-203747.png)
-![image](https://raw.githubusercontent.com/jiefly/AbilityChart/master/app/Screenshot_20160521-180328.png)
+#设置各个属性值的大小
+```
+AbilityChatView abilityChatView = (AbilityChatView) findViewById(R.id.ability1);
+        List<Double> data = new ArrayList<>();
+        data.add(80d);
+        data.add(90d);
+        data.add(70d);
+        data.add(30d);
+        data.add(60d);
+        data.add(30d);
+        data.add(60d);
+        abilityChatView.setData(data);
+        abilityChatView.invalidate();
+```
+#设置view的各个属性
+```
+<com.gao.jiefly.abilitychart.AbilityChatView
+		    android:layout_width="0dp"
+		    android:id="@+id/ability3"
+		    android:layout_weight="1"
+		    android:layout_height="match_parent"
+		    custom:textColor="#000"
+		    custom:lineColor="#75082d"
+		    custom:textSize="3sp"
+		    custom:coverColor="#ff0000"
+		    custom:coverAlpha="100"
+		    custom:polygonAlpha="23"
+		    custom:lineWidth="0.2dp"
+	    />
+```
+#在代码中设置view的各个属性
+```
+        abilityChatView.setCount(6);
+        abilityChatView.setProertyLevel(4);
+        abilityChatView.setPolygonColor(Color.DKGRAY);
+        abilityChatView.setCoverColor(Color.RED);
+        abilityChatView.setTextColor(Color.RED);
+        abilityChatView.setPolygonStyle(Paint.Style.STROKE);
+        abilityChatView.setCoverStyle(Paint.Style.STROKE);
+        abilityChatView.setCoverAlpha(255);
+        abilityChatView.setLineColor(Color.GREEN);
+        abilityChatView.setLineWidth(4);
+        abilityChatView.invalidate();
+```
