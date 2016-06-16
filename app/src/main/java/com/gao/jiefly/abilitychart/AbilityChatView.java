@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +39,9 @@ public class AbilityChatView extends View {
     private static final int DEFAULT_POLGON_ALPHA = 123;
     private static final int DEFAULT_PROERTY_LEVEL = DEFAULT_COUNT - 2;
     private static final double DEFAULT_MAX_VALUE = 100d;
+    private static final String[] DEFAULT_TITLES = new String[]{"物理", "魔法", "防御", "金钱", "击杀", "生存", "助攻", "物理", "魔法", "防御", "金钱", "击杀", "生存", "助攻"};
+
+    private static final String TAG = "jiefly";
     //分割线颜色
     private int lineColor;
     //分割线宽
@@ -91,16 +95,27 @@ public class AbilityChatView extends View {
     //多边形中心点
     private Point centerPoint;
 
+    private List<String> titles = new ArrayList<>();
+
+
+    //让view居中
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        radius = (float) (0.7 * Math.min(w, h) / 2);
+        //中心点坐标
+        centerPoint.x = w / 2;
+        centerPoint.y = h / 2;
+        postInvalidate();
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
 
     public AbilityChatView(Context context, int count) {
-        this(context,null);
+        this(context, null);
         this.count = count;
-
-
     }
 
     public AbilityChatView(Context context, AttributeSet attrs) {
-        this(context,attrs,0);
+        this(context, attrs, 0);
     }
 
     public AbilityChatView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -113,38 +128,38 @@ public class AbilityChatView extends View {
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.AbilityChatView_lineColor:
-                    lineColor = typedArray.getColor(attr,DEFAULT_LINE_COLOR);
-                    Log.e("jiefly","---lineColor--"+lineColor+"------");
+                    lineColor = typedArray.getColor(attr, DEFAULT_LINE_COLOR);
+                    Log.e(TAG, "---lineColor--" + lineColor + "------");
                     break;
                 case R.styleable.AbilityChatView_textColor:
 
                     textColor = typedArray.getColor(attr, DEFAULT_TEXT_COLOR);
-                    Log.e("jiefly","----textColor-"+textColor+"------");
+                    Log.e(TAG, "----textColor-" + textColor + "------");
                     break;
                 case R.styleable.AbilityChatView_textSize:
-                    textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_TEXT_SIZE),context.getResources().getDisplayMetrics());
-                    Log.e("jiefly","--textSize---"+textSize+"------");
+                    textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, typedArray.getDimension(attr, DEFAULT_TEXT_SIZE), context.getResources().getDisplayMetrics());
+                    Log.e(TAG, "--textSize---" + textSize + "------");
                     break;
                 case R.styleable.AbilityChatView_coverAlpha:
-                    coverAlpha = typedArray.getInteger(attr,DEFAULT_COVER_ALPHA);
+                    coverAlpha = typedArray.getInteger(attr, DEFAULT_COVER_ALPHA);
                     break;
                 case R.styleable.AbilityChatView_coverColor:
-                    coverColor = typedArray.getColor(attr,DEFAULT_COVER_COLOR);
+                    coverColor = typedArray.getColor(attr, DEFAULT_COVER_COLOR);
                     break;
                 case R.styleable.AbilityChatView_coverLineWidth:
-                    coverWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_COVER_WIDTH),context.getResources().getDisplayMetrics());
+                    coverWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_COVER_WIDTH), context.getResources().getDisplayMetrics());
                     break;
                 case R.styleable.AbilityChatView_lineWidth:
-                    lineWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_LINE_WIDTH),context.getResources().getDisplayMetrics());
+                    lineWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_LINE_WIDTH), context.getResources().getDisplayMetrics());
                     break;
                 case R.styleable.AbilityChatView_polygonAlpha:
-                    polygonAlpha = typedArray.getInteger(attr,DEFAULT_POLGON_ALPHA);
+                    polygonAlpha = typedArray.getInteger(attr, DEFAULT_POLGON_ALPHA);
                     break;
                 case R.styleable.AbilityChatView_polygonColor:
-                    polygonColor = typedArray.getColor(attr,DEFAULT_POLYGON_COLOR);
+                    polygonColor = typedArray.getColor(attr, DEFAULT_POLYGON_COLOR);
                     break;
                 case R.styleable.AbilityChatView_polygonLineWidth:
-                    polygonWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getDimension(attr,DEFAULT_POLGON_WIDTH),context.getResources().getDisplayMetrics());
+                    polygonWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_POLGON_WIDTH), context.getResources().getDisplayMetrics());
                     break;
             }
         }
@@ -153,29 +168,19 @@ public class AbilityChatView extends View {
     }
 
 
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public AbilityChatView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        Log.e("jiefly","LOLIPOP");
+        Log.e(TAG, "LOLIPOP");
         setDefault();
         init();
     }
 
-    //让view居中
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        radius = (float) (0.8 * Math.min(w, h) / 2);
-        //中心点坐标
-        centerPoint.x = w / 2;
-        centerPoint.y = h / 2;
-        postInvalidate();
-        super.onSizeChanged(w, h, oldw, oldh);
-    }
-    
     public void setCount(int count) {
         this.count = count;
         changeAngle();
+        changeProperty();
+        invalidate();
     }
 
     public void setCoverStyle(Paint.Style coverStyle) {
@@ -240,6 +245,7 @@ public class AbilityChatView extends View {
 
     public void setProertyLevel(int proertyLevel) {
         this.proertyLevel = proertyLevel;
+        invalidate();
     }
 
     public void setProperty(List<String> property) {
@@ -248,6 +254,7 @@ public class AbilityChatView extends View {
 
     public void setData(List<Double> data) {
         this.data = data;
+        invalidate();
     }
 
     public void setMaxValue(Double maxValue) {
@@ -290,11 +297,19 @@ public class AbilityChatView extends View {
         property = new ArrayList<>();
 
         changeData();
+        changeTitles(DEFAULT_TITLES);
+    }
+
+    public void changeTitles(String[] strings) {
+        if (titles.size()>0)
+            titles.clear();
+        Collections.addAll(titles, strings);
         changeProperty();
     }
 
     private void changeAngle() {
         angle = (float) (Math.PI * 2 / count);
+        Log.e(TAG, "angle in every zone:" + Math.toDegrees(angle));
     }
 
     private void changeMainPaint() {
@@ -331,9 +346,9 @@ public class AbilityChatView extends View {
     }
 
     private void changeProperty() {
-        String[] strings = new String[]{"物理", "魔法", "防御", "金钱", "击杀", "生存", "助攻"};
+
         for (int i = 0; i < count; i++) {
-            property.add(i, strings[i]);
+            property.add(i, titles.get(i));
         }
     }
 
@@ -385,29 +400,33 @@ public class AbilityChatView extends View {
         float fontHeight = fontMetrics.descent - fontMetrics.ascent;
 
         for (int i = 0; i < count; i++) {
-            float currentAngle = angle * i;
+            double currentAngle = angle * i;
             float x = (float) (radius * Math.sin(currentAngle));
             float y = (float) (radius * Math.cos(currentAngle));
-            switch ((int) (2 * currentAngle / Math.PI)) {
-                case 0:
-                    //Log.e("jiefly", "第四象限---0" + currentAngle + "anglg" + angle);
-                    float dis = textPaint.measureText(property.get(i));
-                    canvas.drawText(property.get(i), (float) (x - 0.5 * dis), y + fontHeight, textPaint);
-                    break;
-                case 1:
-                   // Log.e("jiefly", "第一象限---1");
-                    canvas.drawText(property.get(i), x + 20, y + 10, textPaint);
-                    break;
-                case 2:
-                   //Log.e("jiefly", "第二象限---2");
-                    dis = textPaint.measureText(property.get(i));//文本长度
-                    canvas.drawText(property.get(i), x - dis, y, textPaint);
-                    break;
-                case 3:
-                   // Log.e("jiefly", "第三象限---3");
-                    dis = textPaint.measureText(property.get(i));//文本长度
-                    canvas.drawText(property.get(i), x - dis, y, textPaint);
-                    break;
+//            文字宽度
+            float dis = textPaint.measureText(property.get(i));
+//            Log.e(TAG, (int) Math.toDegrees(currentAngle) / 90 + "<-angle->");
+            if (Math.toDegrees(currentAngle) == 0) {
+//                0
+                canvas.drawText(property.get(i), (float) (x - 0.5 * dis), y + fontHeight, textPaint);
+            } else if (Math.toDegrees(currentAngle) < 181 && Math.toDegrees(currentAngle) > 179) {
+//                180
+                canvas.drawText(property.get(i), (float) (x - 0.5 * dis), y - fontMetrics.bottom, textPaint);
+            }else if (Math.toDegrees(currentAngle) <91 && Math.toDegrees(currentAngle)>89){
+//                90
+                canvas.drawText(property.get(i), x,y + fontMetrics.bottom,textPaint);
+            }else if (Math.toDegrees(currentAngle) <271 && Math.toDegrees(currentAngle)>269){
+//                270
+                canvas.drawText(property.get(i), x - dis,y + fontMetrics.bottom,textPaint);
+            }
+            else if (Math.toDegrees(currentAngle) < 89 && Math.toDegrees(currentAngle) > 1) {
+                canvas.drawText(property.get(i), x, y+fontMetrics.bottom, textPaint);
+            }else if (Math.toDegrees(currentAngle) <= 179 && Math.toDegrees(currentAngle) > 90) {
+                canvas.drawText(property.get(i), x, y, textPaint);
+            }else if (Math.toDegrees(currentAngle) < 271 && Math.toDegrees(currentAngle) >= 181) {
+                canvas.drawText(property.get(i), x - dis, y, textPaint);
+            }else if (Math.toDegrees(currentAngle) <= 359 && Math.toDegrees(currentAngle) >= 271) {
+                canvas.drawText(property.get(i), x - dis, y +fontMetrics.bottom, textPaint);
             }
         }
     }
@@ -415,7 +434,6 @@ public class AbilityChatView extends View {
     private void drawRegion(Canvas canvas) {
         Path path = new Path();
         for (int i = 0; i < count; i++) {
-
             double percent = data.get(i) / maxValue;
             //Log.e("drawRegion", "data:" + percent + "---" + i);
             float currentAngle = angle * i;
@@ -443,5 +461,19 @@ public class AbilityChatView extends View {
         drawText(canvas);
         //画覆盖区域
         drawRegion(canvas);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        if (widthSpecMode == MeasureSpec.AT_MOST)
+            width = 800;
+        if (heightSpecMode == MeasureSpec.AT_MOST)
+            height = 800;
+        setMeasuredDimension(width,height);
     }
 }

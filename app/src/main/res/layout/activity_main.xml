@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 	    <com.gao.jiefly.abilitychart.AbilityChatView
-		    android:layout_width="0dp"
-		    android:layout_weight="1"
-		    android:layout_height="match_parent"
-		    custom:textColor="#000"
-		    custom:lineColor="#75082d"
-		    custom:textSize="5sp"
-		    custom:coverColor="#0ff"
-		    custom:coverAlpha="100"
-		    custom:polygonAlpha="23"/>
+	    android:id="@+id/ability1"
+	    android:layout_width="match_parent"
+	    android:layout_height="300dp"
+	    custom:textColor="#000"
+	    custom:lineColor="#75082d"
+	    custom:textSize="5sp"
+	    custom:coverColor="#0ff"
+	    custom:coverAlpha="100"
+	    custom:polygonAlpha="23"/>
 	    <com.gao.jiefly.abilitychart.AbilityChatView
-		    android:layout_width="0dp"
-		    android:layout_weight="1"
-		    android:layout_height="match_parent"
+		    android:id="@+id/ability2"
+		    android:layout_width="match_parent"
+		    android:layout_height="300dp"
 		    custom:textColor="#000"
 		    custom:lineColor="#75082d"
 		    custom:textSize="5sp"
@@ -33,16 +30,10 @@
 		    custom:coverAlpha="100"
 		    custom:polygonAlpha="123"
 	    />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 	    <com.gao.jiefly.abilitychart.AbilityChatView
-		    android:layout_width="0dp"
-		    android:layout_weight="1"
-		    android:layout_height="match_parent"
+		    android:layout_width="match_parent"
+		    android:id="@+id/ability3"
+		    android:layout_height="300dp"
 		    custom:textColor="#000"
 		    custom:lineColor="#75082d"
 		    custom:textSize="3sp"
@@ -51,16 +42,38 @@
 		    custom:polygonAlpha="23"
 		    custom:lineWidth="0.2dp"
 	    />
-     <!--   <com.gao.jiefly.abilitychart.AbilityChatView
-	        android:layout_width="0dp"
-	        android:layout_weight="1"
-	        android:layout_height="match_parent"
-	        custom:textColor="#000"
-	        custom:lineColor="#75082d"
-	        custom:textSize="40"
-	        custom:coverColor="#0ff"
-	        custom:coverAlpha="100"
-	        custom:polygonAlpha="23"/>-->
-
+	    <com.gao.jiefly.abilitychart.AbilityChatView
+		    android:id="@+id/ability4"
+		    android:layout_width="match_parent"
+		    android:layout_height="300dp"
+		    custom:textColor="#000"
+		    custom:lineColor="#75082d"
+		    custom:textSize="5sp"
+		    custom:coverColor="#0ff"
+		    custom:coverAlpha="100"
+		    custom:polygonAlpha="23"/>
+	    <com.gao.jiefly.abilitychart.AbilityChatView
+		    android:id="@+id/ability5"
+		    android:layout_width="match_parent"
+		    android:layout_height="300dp"
+		    custom:textColor="#000"
+		    custom:lineColor="#75082d"
+		    custom:textSize="6sp"
+		    custom:coverColor="#0ff"
+		    custom:coverAlpha="100"
+		    custom:polygonAlpha="123"
+	    />
+	    <com.gao.jiefly.abilitychart.AbilityChatView
+		    android:layout_width="match_parent"
+		    android:id="@+id/ability6"
+		    android:layout_height="300dp"
+		    custom:textColor="#000"
+		    custom:lineColor="#75082d"
+		    custom:textSize="6sp"
+		    custom:coverColor="#ff0000"
+		    custom:coverAlpha="100"
+		    custom:polygonAlpha="23"
+		    custom:lineWidth="0.2dp"
+	    />
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
