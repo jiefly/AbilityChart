@@ -92,17 +92,6 @@ public class AbilityChatView extends View {
     private Point centerPoint;
 
 
-    //让view居中
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        radius = (float) (0.8 * Math.min(w, h) / 2);
-        //中心点坐标
-        centerPoint.x = w / 2;
-        centerPoint.y = h / 2;
-        postInvalidate();
-        super.onSizeChanged(w, h, oldw, oldh);
-    }
-
     public AbilityChatView(Context context, int count) {
         this(context,null);
         this.count = count;
@@ -173,6 +162,17 @@ public class AbilityChatView extends View {
         init();
     }
 
+    //让view居中
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        radius = (float) (0.8 * Math.min(w, h) / 2);
+        //中心点坐标
+        centerPoint.x = w / 2;
+        centerPoint.y = h / 2;
+        postInvalidate();
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+    
     public void setCount(int count) {
         this.count = count;
         changeAngle();
