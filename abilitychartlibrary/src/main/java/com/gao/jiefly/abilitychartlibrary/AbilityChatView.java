@@ -1,4 +1,4 @@
-package com.gao.jiefly.abilitychart;
+package com.gao.jiefly.abilitychartlibrary;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -42,67 +42,46 @@ public class AbilityChatView extends View {
     private static final String[] DEFAULT_TITLES = new String[]{"物理", "魔法", "防御", "金钱", "击杀", "生存", "助攻", "物理", "魔法", "防御", "金钱", "击杀", "生存", "助攻"};
 
     private static final String TAG = "jiefly";
-    //分割线颜色
+    //divide color
     private int lineColor;
-    //分割线宽
+    //divide width
     private int lineWidth;
-    //文字颜色
     private int textColor;
-    //文字大小
     private int textSize;
-    //覆盖区颜色
     private int coverColor;
-    //覆盖区画笔宽度
     private int coverWidth;
-    //覆盖区画笔style
     private Paint.Style coverStyle;
-    //覆盖区透明度
     private int coverAlpha;
-    //多边形主体颜色
     private int polygonColor;
-    //多边形画笔宽度
     private int polygonWidth;
-    //多边形画笔style
     private Paint.Style polygonStyle;
-    //多边形初始透明度
     private int polygonAlpha;
-    //每项属性的等级数(默认等于count数)
     private int proertyLevel;
-    //各个属性项的值
     private List<String> property;
-    //各项数据的值
     private List<Double> data;
-    //最大数据值
     private Double maxValue;
-    //多边形的边数
+    //count of you property
     private int count;
 
 
-    //文字画笔
     private Paint textPaint;
-    //多边形画笔
     private Paint mainPaint;
-    //数据画笔
     private Paint coverPaint;
-    //分割线画笔
     private Paint linePaint;
 
 
-    //每个区域所占的角度（360/count）
     private float angle;
-    //最大半径
+    //max radius
     private float radius;
-    //多边形中心点
     private Point centerPoint;
 
     private List<String> titles = new ArrayList<>();
 
 
-    //让view居中
+    //force the view in center of layout
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         radius = (float) (0.7 * Math.min(w, h) / 2);
-        //中心点坐标
         centerPoint.x = w / 2;
         centerPoint.y = h / 2;
         postInvalidate();
@@ -126,41 +105,26 @@ public class AbilityChatView extends View {
         int n = typedArray.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = typedArray.getIndex(i);
-            switch (attr) {
-                case R.styleable.AbilityChatView_lineColor:
-                    lineColor = typedArray.getColor(attr, DEFAULT_LINE_COLOR);
-                    Log.e(TAG, "---lineColor--" + lineColor + "------");
-                    break;
-                case R.styleable.AbilityChatView_textColor:
-
-                    textColor = typedArray.getColor(attr, DEFAULT_TEXT_COLOR);
-                    Log.e(TAG, "----textColor-" + textColor + "------");
-                    break;
-                case R.styleable.AbilityChatView_textSize:
-                    textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, typedArray.getDimension(attr, DEFAULT_TEXT_SIZE), context.getResources().getDisplayMetrics());
-                    Log.e(TAG, "--textSize---" + textSize + "------");
-                    break;
-                case R.styleable.AbilityChatView_coverAlpha:
-                    coverAlpha = typedArray.getInteger(attr, DEFAULT_COVER_ALPHA);
-                    break;
-                case R.styleable.AbilityChatView_coverColor:
-                    coverColor = typedArray.getColor(attr, DEFAULT_COVER_COLOR);
-                    break;
-                case R.styleable.AbilityChatView_coverLineWidth:
-                    coverWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_COVER_WIDTH), context.getResources().getDisplayMetrics());
-                    break;
-                case R.styleable.AbilityChatView_lineWidth:
-                    lineWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_LINE_WIDTH), context.getResources().getDisplayMetrics());
-                    break;
-                case R.styleable.AbilityChatView_polygonAlpha:
-                    polygonAlpha = typedArray.getInteger(attr, DEFAULT_POLGON_ALPHA);
-                    break;
-                case R.styleable.AbilityChatView_polygonColor:
-                    polygonColor = typedArray.getColor(attr, DEFAULT_POLYGON_COLOR);
-                    break;
-                case R.styleable.AbilityChatView_polygonLineWidth:
-                    polygonWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_POLGON_WIDTH), context.getResources().getDisplayMetrics());
-                    break;
+            if (attr == R.styleable.AbilityChatView_lineColor) {
+                lineColor = typedArray.getColor(attr, DEFAULT_LINE_COLOR);
+            } else if (attr == R.styleable.AbilityChatView_textColor) {
+                textColor = typedArray.getColor(attr, DEFAULT_TEXT_COLOR);
+            } else if (attr == R.styleable.AbilityChatView_textSize) {
+                textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, typedArray.getDimension(attr, DEFAULT_TEXT_SIZE), context.getResources().getDisplayMetrics());
+            } else if (attr == R.styleable.AbilityChatView_coverAlpha) {
+                coverAlpha = typedArray.getInteger(attr, DEFAULT_COVER_ALPHA);
+            } else if (attr == R.styleable.AbilityChatView_coverColor) {
+                coverColor = typedArray.getColor(attr, DEFAULT_COVER_COLOR);
+            } else if (attr == R.styleable.AbilityChatView_coverLineWidth) {
+                coverWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_COVER_WIDTH), context.getResources().getDisplayMetrics());
+            } else if (attr == R.styleable.AbilityChatView_lineWidth) {
+                lineWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_LINE_WIDTH), context.getResources().getDisplayMetrics());
+            } else if (attr == R.styleable.AbilityChatView_polygonAlpha) {
+                polygonAlpha = typedArray.getInteger(attr, DEFAULT_POLGON_ALPHA);
+            } else if (attr == R.styleable.AbilityChatView_polygonColor) {
+                polygonColor = typedArray.getColor(attr, DEFAULT_POLYGON_COLOR);
+            } else if (attr == R.styleable.AbilityChatView_polygonLineWidth) {
+                polygonWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getDimension(attr, DEFAULT_POLGON_WIDTH), context.getResources().getDisplayMetrics());
             }
         }
         typedArray.recycle();
@@ -301,7 +265,7 @@ public class AbilityChatView extends View {
     }
 
     public void changeTitles(String[] strings) {
-        if (titles.size()>0)
+        if (titles.size() > 0)
             titles.clear();
         Collections.addAll(titles, strings);
         changeProperty();
@@ -377,7 +341,7 @@ public class AbilityChatView extends View {
             path.reset();
             for (int j = 0; j < count; j++) {
                 if (j == 0) {
-                    //将起点移到角度为0半径为当前半径的点
+                    //move start point to angle : 0,radui : 0
                     path.moveTo((float) (currentR * Math.sin(0)), (float) (currentR * Math.cos(0)));
                 } else {
                     float currentAngle = angle * j;
@@ -403,7 +367,6 @@ public class AbilityChatView extends View {
             double currentAngle = angle * i;
             float x = (float) (radius * Math.sin(currentAngle));
             float y = (float) (radius * Math.cos(currentAngle));
-//            文字宽度
             float dis = textPaint.measureText(property.get(i));
 //            Log.e(TAG, (int) Math.toDegrees(currentAngle) / 90 + "<-angle->");
             if (Math.toDegrees(currentAngle) == 0) {
@@ -412,21 +375,20 @@ public class AbilityChatView extends View {
             } else if (Math.toDegrees(currentAngle) < 181 && Math.toDegrees(currentAngle) > 179) {
 //                180
                 canvas.drawText(property.get(i), (float) (x - 0.5 * dis), y - fontMetrics.bottom, textPaint);
-            }else if (Math.toDegrees(currentAngle) <91 && Math.toDegrees(currentAngle)>89){
+            } else if (Math.toDegrees(currentAngle) < 91 && Math.toDegrees(currentAngle) > 89) {
 //                90
-                canvas.drawText(property.get(i), x,y + fontMetrics.bottom,textPaint);
-            }else if (Math.toDegrees(currentAngle) <271 && Math.toDegrees(currentAngle)>269){
+                canvas.drawText(property.get(i), x, y + fontMetrics.bottom, textPaint);
+            } else if (Math.toDegrees(currentAngle) < 271 && Math.toDegrees(currentAngle) > 269) {
 //                270
-                canvas.drawText(property.get(i), x - dis,y + fontMetrics.bottom,textPaint);
-            }
-            else if (Math.toDegrees(currentAngle) < 89 && Math.toDegrees(currentAngle) > 1) {
-                canvas.drawText(property.get(i), x, y+fontMetrics.bottom, textPaint);
-            }else if (Math.toDegrees(currentAngle) <= 179 && Math.toDegrees(currentAngle) > 90) {
+                canvas.drawText(property.get(i), x - dis, y + fontMetrics.bottom, textPaint);
+            } else if (Math.toDegrees(currentAngle) < 89 && Math.toDegrees(currentAngle) > 1) {
+                canvas.drawText(property.get(i), x, y + fontMetrics.bottom, textPaint);
+            } else if (Math.toDegrees(currentAngle) <= 179 && Math.toDegrees(currentAngle) > 90) {
                 canvas.drawText(property.get(i), x, y, textPaint);
-            }else if (Math.toDegrees(currentAngle) < 271 && Math.toDegrees(currentAngle) >= 181) {
+            } else if (Math.toDegrees(currentAngle) < 271 && Math.toDegrees(currentAngle) >= 181) {
                 canvas.drawText(property.get(i), x - dis, y, textPaint);
-            }else if (Math.toDegrees(currentAngle) <= 359 && Math.toDegrees(currentAngle) >= 271) {
-                canvas.drawText(property.get(i), x - dis, y +fontMetrics.bottom, textPaint);
+            } else if (Math.toDegrees(currentAngle) <= 359 && Math.toDegrees(currentAngle) >= 271) {
+                canvas.drawText(property.get(i), x - dis, y + fontMetrics.bottom, textPaint);
             }
         }
     }
@@ -451,15 +413,14 @@ public class AbilityChatView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //将画布坐标系移到中心点
+        //move canvas to center
         canvas.translate(centerPoint.x, centerPoint.y);
-        //画正多边形
         drawPolygon(canvas);
-        //画正多边形的分割线
+        //draw divide
         drawLine(canvas);
-        //画文字
+        //draw text
         drawText(canvas);
-        //画覆盖区域
+        //draw cover
         drawRegion(canvas);
     }
 
@@ -474,6 +435,6 @@ public class AbilityChatView extends View {
             width = 800;
         if (heightSpecMode == MeasureSpec.AT_MOST)
             height = 800;
-        setMeasuredDimension(width,height);
+        setMeasuredDimension(width, height);
     }
 }

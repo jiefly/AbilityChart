@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'abilitychartlibrary'
+
+    publishedGroupId = 'com.gao.jiefly'
+    libraryName = 'AbilityChart'
+    artifact = 'abilitychartlibrary'
+
+    libraryDescription = 'A nice and simple custom view that can show many property with lines or area'
+
+    siteUrl = 'https://github.com/jiefly/AbilityChart'
+    gitUrl = 'https://github.com/jiefly/AbilityChart.git'
+
+    libraryVersion = '1.0.1'
+
+    developerId = 'jiefly'
+    developerName = 'ChongjieGao'
+    developerEmail = 'jiefly1993@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+}
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+/*publish {
+    userOrg = 'jiefly'//bintray.com用户名
+    groupId = 'com.gao.jiefly'//jcenter上的路径
+    artifactId = 'abilitychartlibrary'//项目名称
+    publishVersion = '1.0.0'//版本号
+    desc = 'A nice custom view that can show many property with lines or area'//描述，不重要
+    website = 'https://github.com/jiefly/AbilityChart'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+}*/

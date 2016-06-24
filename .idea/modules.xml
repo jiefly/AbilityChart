@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AbilityChart.iml" filepath="$PROJECT_DIR$/AbilityChart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/abilitychartlibrary/abilitychartlibrary.iml" filepath="$PROJECT_DIR$/abilitychartlibrary/abilitychartlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
