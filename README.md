@@ -4,6 +4,10 @@ set every feature you want with a few steps.
 #Screenshot
 ![image](https://github.com/jiefly/AbilityChart/blob/master/app/GIF_AbilityChart.gif)
 #How to use
+
+#add dependencies
+compile 'com.gao.jiefly:abilitychartlibrary:1.0.1'
+
 ```
 //XML
 	android:id="@+id/ability2"
